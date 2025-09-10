@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Go - Backend Simples</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+
+        h4 {
+            color: #8e44ad;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p, li {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        ol, ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        a:hover {
+            color: #2980b9;
+            border-bottom: 1px solid #2980b9;
+            transform: translateY(-1px);
+        }
+
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .note-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #00b894;
+            box-shadow: 0 10px 25px rgba(116, 185, 255, 0.3);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #d63031;
+            box-shadow: 0 10px 25px rgba(253, 121, 168, 0.3);
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #00b894;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc8 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3498db, transparent);
+            margin: 30px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+                border-radius: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Tutorial Go - Backend Simples</h1>
+        
+        <h2>📥 Baixar o Go</h2>
+        
+        <div class="step">
+            <strong>1. Instalar o compilador da linguagem Go:</strong><br>
+            <a href="https://go.dev/dl/" target="_blank">https://go.dev/dl/</a>
+        </div>
+
+        <div class="note-box">
+            <h3>📝 Notas do Heron:</h3>
+            
+            <h4>🔧 Compilação:</h4>
+            <p>Go (ou Golang) é uma linguagem que foi concebida como uma linguagem compilada, então o que você está baixando é o compilador da linguagem. Compiladores são programas que convertem código fonte (que humanos conseguem ler) para código de máquina, gerando um binário para o sistema operacional (ELF no Linux, .exe no Windows). Como você precisa compilar antes de rodar, Go é uma linguagem compilada <span class="highlight">AOT (Ahead of Time)</span>.</p>
+            
+            <p>O compilador na verdade faz várias coisas antes de chegar no executável.</p>
+            
+            <strong>Etapas de um compilador:</strong>
+            <ul>
+                <li>Preprocessing</li>
+                <li>Compiling</li>
+                <li>Assembling</li>
+                <li>Linking</li>
+            </ul>
+            
+            <p>Golang abstrai a maioria dessas coisas, então você só vai interagir com o compilador com comandos simples como <code>go build</code> e <code>go run</code> na maioria do tempo. Outros exemplos de linguagens compiladas: C (pai das linguagens modernas), C++, Rust.</p>
+
+            <hr>
+
+            <h4>⚡ Interpretação</h4>
+            <p>As linguagens que vocês usaram anteriormente (Python, JavaScript) são linguagens que são comumente usadas com um interpretador. O interpretador é outro programinha, só que no lugar dele converter o código para linguagem de máquina, ele vai converter para uma linguagem intermediária e às vezes converter para código de máquina também (compilando conforme o interpretador vê a necessidade - o nome dessa técnica é <span class="highlight">JIT - Just In Time Compilation</span>).</p>
+
+            <hr>
+
+            <p>Muita gente fala que linguagem A ou B são interpretadas ou compiladas, mas isso na real depende muito. A linguagem define uma especificação, e normalmente essas especificações conseguem ser implementadas tanto com interpretadores quanto com compiladores. Python pode ser compilada, Python vem com um interpretador, mas nada proíbe você de usar um compilador também.</p>
+        </div>
+
+        <h2>📦 Criando um módulo Go</h2>
+        
+        <div class="step">
+            <strong>1. Deem uma olhada nisso aqui:</strong><br>
+            <a href="https://micilini.com/conteudos/golang/modulos-em-go" target="_blank">https://micilini.com/conteudos/golang/modulos-em-go</a>
+        </div>
+
+        <p>Esta aqui é a página oficial do Go - muitas coisas vocês podem aprender por aqui. Não precisa abrir agora, mas é bom que conheçam esse site:</p>
+        <p><a href="https://go.dev/doc/tutorial/create-module" target="_blank">https://go.dev/doc/tutorial/create-module</a></p>
+
+        <div class="step">
+            <strong>2. Eu quero que o módulo de vocês seja algo como:</strong><br>
+            <code>github.com/seu_nome/go-back</code>
+        </div>
+
+        <h2>📚 Instalando bibliotecas</h2>
+        
+        <p>Vocês vão trabalhar muito com bibliotecas (principalmente se usarem JavaScript ou Python 😄). Bibliotecas são código compartilhado - vocês não vão reinventar a roda toda vez que forem criar um serviço novo, então usem bibliotecas!</p>
+
+        <div class="step">
+            <strong>1. Instalem isso aqui:</strong><br>
+            <a href="https://github.com/gin-gonic/gin" target="_blank">https://github.com/gin-gonic/gin</a>
+        </div>
+
+        <div class="warning-box">
+            <strong>💡 Dica importante:</strong> Se acostumem a ler documentação! 📖
+        </div>
+
+        <h2>🏗️ Criando um backend simples</h2>
+        
+        <p>Na documentação vocês vão conseguir esse código simples aqui:</p>
+
+        <pre><code>package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    r := gin.Default()
+    r.GET("/ping", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{
+            "message": "pong",
+        })
+    })
+    r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}</code></pre>
+
+        <p>Reparem que no começo vocês importaram um dos pacotes que pedi para instalarem. Este é o primeiro serviço de vocês usando a biblioteca <span class="highlight">Gin</span> como framework de API! 🎉</p>
+
+        <div class="footer">
+            <p>✨ Boa sorte com o seu primeiro backend em Go! ✨</p>
+        </div>
+    </div>
+</body>
+</html>
