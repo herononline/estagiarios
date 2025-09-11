@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Por que Go - Tutorial Backend</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fafafa;
+            color: #333;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #7f8c8d;
+        }
+        
+        blockquote {
+            background: #ecf0f1;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+            padding: 15px;
+            font-style: italic;
+        }
+        
+        code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+        
+        ul {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .line-numbers {
+            counter-reset: line-numbering;
+            white-space: pre;
+        }
+        
+        .line-numbers code::before {
+            content: counter(line-numbering);
+            counter-increment: line-numbering;
+            padding-right: 1em;
+            width: 25px;
+            text-align: right;
+            opacity: 0.5;
+            display: inline-block;
+            color: #ccc;
+            background: none;
+            margin-right: 16px;
+            padding: 2px 10px 2px 0;
+            border-right: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Por que Go</h1>
+    <blockquote>pq eu gosto</blockquote>
+
+    <p>Mentira, não é isso não. Na verdade eu acho que Go é uma boa linguagem pra iniciantes porque ela é muito simples, tem uma boa biblioteca padrão (não precisa instalar muita coisa), e também expõe algumas coisas que outras linguagens de programação vão esconder pra vocês ou até deixar de forma opcional.</p>
+
+    <p>Go usa um coletor de lixo (garbage collector) <a href="https://pt.wikipedia.org/wiki/Coletor_de_lixo_(inform%C3%A1tica)" target="_blank">https://pt.wikipedia.org/wiki/Coletor_de_lixo_(informática)</a></p>
+
+    <p>Então vocês não vão precisar se preocupar tanto com gerenciamento de memória manual. Isso é bom porque outras linguagens como C e C++ requerem esse gerenciamento de memória manual, então se vocês alocarem algo na heap precisariam desalocar. No Go isso é coletado automaticamente pelo coletor de lixo, e vocês ainda conseguem trabalhar para manter coisas na stack, então dá pra garantir um desempenho legal.</p>
+
+    <p>Go é uma das linguagens "novas" (acho que é de 2009 ou 2010 ahsudha) famosinhas para backend e serviços da web/cloud, já que ela nasceu pra resolver vários problemas que a Google enfrentava na época, então Go é gostosinho de programar.</p>
+
+    <div class="warning">
+        <strong>Aviso:</strong> Me avisem se vocês não souberem o que é stack ou heap, mas isso não é uma coisa que vocês precisam saber muito no mundo moderno (mas bons programadores sabem o que é isso viu viu viu viu 👀), ainda mais se estiverem com linguagens como Python e JavaScript hauhauh.
+    </div>
+
+    <h2>O programinha que criamos</h2>
+
+    <blockquote>
+        Antes só queria deixar claro que Go é uma linguagem com uma biblioteca padrão muito rica, então dá pra fazer muita coisa sem instalar nada de fora. Inclusive vocês poderiam fazer esse serviço web usando apenas a biblioteca padrão com o <code>net/http</code> do Go. Essas bibliotecas que vamos usar apenas facilitam isso, porque o net/http segue a ideia de ser algo muito simples, então para um serviço da web ela poderia exigir muito código que essas bibliotecas já implementam (inclusive o Gin usa net/http por baixo dos panos).
+    </blockquote>
+
+    <p>Vou seguir o código com vocês comentando cada parte:</p>
+
+    <pre><code>package main
+
+import (
+  "net/http"
+
+  "github.com/gin-gonic/gin"
+)
+
+func main() {
+  r := gin.Default()
+  r.GET("/ping", func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+      "message": "pong",
+    })
+  })
+  r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}</code></pre>
+
+    <h3>Package main</h3>
+    <pre><code>package main</code></pre>
+    <p>Esse é o ponto de entrada do seu programa Go. Praticamente todo programa Go tem um package main e uma função main(), aqui é o entrypoint para o programa que vai ser compilado.</p>
+
+    <h3>Imports</h3>
+    <pre><code>import (
+  "net/http"
+
+  "github.com/gin-gonic/gin"
+)</code></pre>
+
+    <p>Essas são as importações que fazemos para esse programa. Se vocês leram a paradinha que falei dos módulos Go, vão reparar que <code>github.com/gin-gonic/gin</code> é um módulo externo. Go é diferente do Node.js, que tem um registry padrão. No Go você pode hospedar seu código onde quiser, Go vai fazer um fetch nas dependências e adicionar ao seu projeto.</p>
+
+    <p>Isso é muito bom! De vez em quando vocês vão ouvir que o NPM foi hackeado, ou tá fora do ar, ou que tal biblioteca infectada afetou milhões de projetos hasuhau. No Go você tem controle total de onde vai botar seu código para outras pessoas usarem. Você pode até mesmo deixar ele privado, apagar a biblioteca pra sempre (no NPM existem regras pra isso). Enfim, você tem muito controle.</p>
+
+    <p>Então sempre que vocês virem um módulo que é um link, significa que é uma dependência externa e o caminho é onde o Go vai baixar o código. Vocês podem até mesmo abrir o link e conferir todo o código da biblioteca <code>github.com/gin-gonic/gin</code>.</p>
+
+    <p>O <code>net/http</code> não possui um link de registry porque ele faz parte da biblioteca padrão do Go. Ela é instalada na máquina de vocês junto com a instalação do Compilador, então ela tá disponível pra todo mundo que programa em Go :)</p>
+
+    <h3>Função Main</h3>
+    <pre><code>func main() {</code></pre>
+    <p><code>func main()</code> define a função main, o entrypoint para o código do seu programa.</p>
+
+    <h3>O Código Principal</h3>
+    <pre><code>r := gin.Default()
+r.GET("/ping", func(c *gin.Context) {
+  c.JSON(http.StatusOK, gin.H{
+    "message": "pong",
+  })
+})
+r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")</code></pre>
+
+    <p><code>r := gin.Default()</code> essa é a sintaxe do Go para <strong>declaração</strong> + <strong>definição</strong>. Normalmente vocês vão ver linguagens fazendo algo como <code>var/const/let/type = valor</code>. Se vocês não sabem a diferença de declaração para definição, me perguntem aí que eu explico (eu realmente não sei como foram as aulas de vocês hfaudshfua).</p>
+
+    <p>Enfim, nessa função basicamente cria e retorna uma instância do Gin (framework que estamos usando). Se vocês passarem o mouse na função (<code>.Default()</code>), vocês conseguem ver a documentação dela. Vocês também podem clicar nela com o botão direito e pular para definição, com o código fonte da biblioteca e o texto da documentação explicando a função:</p>
+
+    <pre><code>// Default returns an Engine instance with the Logger and Recovery middleware already attached.
+func Default(opts ...OptionFunc) *Engine {
+    debugPrintWARNINGDefault()
+    engine := New()
+    engine.Use(Logger(), Recovery())
+    return engine.With(opts...)
+}</code></pre>
+
+    <p>Só mostrei isso porque essa é uma das filosofias do Go: o código das bibliotecas está disponível pra você. Então se você usa uma biblioteca, você tem todo o código dela, e não apenas cabeçalhos e definições como em JavaScript ou C.</p>
+
+    <h3>Definindo a Rota</h3>
+    <pre><code>r.GET("/ping", func(c *gin.Context) {
+  c.JSON(http.StatusOK, gin.H{
+    "message": "pong",
+  })
+})</code></pre>
+
+    <p>Aqui chamamos a nossa engine que colocamos o nome de <code>r</code>, que é do tipo <code>*gin.Engine</code>. Já que ela é uma engine, podemos usar um dos métodos de uma <code>gin.Engine</code>: <code>GET</code>.</p>
+
+    <div class="warning">
+        <strong>Nota:</strong> O método GET é um método do protocolo HTTP. Se não me engano ele foi definido no HTTP/1.0, então pode ter certeza que esse método vai ser suportado por quase tudo huahu.
+    </div>
+
+    <p>O método GET do Gin pede como primeiro argumento um caminho para a rota. No caso colocamos o caminho como <code>/ping</code>. Quando nossa aplicação estiver rodando, toda vez que ela receber um GET para /ping, ele vai executar o segundo argumento, que é uma <code>gin.HandlerFunc</code>.</p>
+
+    <p>Vocês podem olhar no código do Gin o que é uma HandlerFunc. Basicamente é uma função com essa sintaxe aqui: <code>HandlerFunc func(c *gin.Context)</code>. Então criamos uma função anônima (função sem nome dentro de outra função) com essa sintaxe, exatamente igual.</p>
+
+    <p>Eu sempre achei a sintaxe de passar uma função como argumento estranha huahua, ainda mais nesse jeito anônimo que não passamos nome nem nada haushas. O código fica muito estranho com várias chaves ({}), então é normal se estranharem também. Inclusive vocês poderiam criar essa função fora e só usar ela, deixando mais fácil de ler e talvez entender:</p>
+
+    <pre><code>// mesma coisa da outra mas não anônima 
+func sendJSONPongHandler(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+      "message": "pong",
+    })
+}
+
+func main() {
+  r := gin.Default()
+  r.GET("/ping", sendJSONPongHandler) // mesma coisa
+  r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}</code></pre>
+
+    <h3>A Função Handler</h3>
+    <p>Vamos dar uma olhadinha nessa função haushasu, quase finalizando:</p>
+
+    <pre><code>func sendJSONPongHandler(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+      "message": "pong",
+    })
+}</code></pre>
+
+    <p>Basicamente usamos o contexto do Gin. O contexto é uma estrutura que encapsula tudo do HTTP e da requisição. Ele consegue enviar as respostas para o requisitante, consegue saber quem requisitou, consegue pegar metadados, e outras coisinhas.</p>
+
+    <div class="warning">
+        <strong>Curiosidade:</strong> Essa parada de contexto, se não me engano, foi popularizada por um framework JavaScript chamado Express, então quando temos acesso ao contexto assim no framework dizemos que ele é inspirado no Express ("Express-like") hauhau.
+    </div>
+
+    <p>Então usamos a função de resposta do contexto, respondendo o request que recebemos na nossa rota <code>/ping</code>. Respondemos com um JSON que é basicamente:</p>
+
+    <pre><code>{
+  "message": "pong"
+}</code></pre>
+
+    <div class="warning">
+        <strong>Nota:</strong> Se vocês não souberem o que é um JSON podem perguntar também.
+    </div>
+
+    <h3>Executando o Servidor</h3>
+    <p>No final metemos um:</p>
+
+    <pre><code>r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")</code></pre>
+
+    <p>Que é basicamente pegar a engine que inicializamos e mandar ela ficar rodando. O Gin por padrão usa a porta <code>:8080</code> na rede.</p>
+
+    <div class="warning">
+        <strong>Comentários:</strong> Eu esqueci de falar, mas isso aqui <code>//</code> em Go é um comentário. Tudo pra frente disso não entra no programa compilado e é totalmente ignorado, mas no Go você pode usar isso pra documentar o código. É importante saber usar os comentários de forma inteligente - comentar tudo é loucura também. Com o tempo vocês vão construindo intuição pra isso, mas tem umas regrinhas de ouro hasuhau.
+    </div>
+
+    <p>Isso de <strong>porta</strong> (port) vocês devem ter estudado em redes, mas se não estão familiarizados com isso recebam o conhecimento:</p>
+    <p><a href="https://www.cloudflare.com/pt-br/learning/network-layer/what-is-a-computer-port/" target="_blank">https://www.cloudflare.com/pt-br/learning/network-layer/what-is-a-computer-port/</a></p>
+
+    <hr>
+
+    <h2>Pronto, agora vocês já são devs backend ou fullstack</h2>
+
+    <p>Pra rodar essa parada vocês usam o compilador do Go. Basicamente abram um terminal e rodem <code>go run main.go</code>, ou <code>go run .</code>. O compilador é esperto e vai encontrar a main, compilar, e rodar o código na mesma hora.</p>
+
+    <p>Serviços web não desligam muito (se desligar ou é manutenção ou deu ruim), então vocês precisam deixar o serviço rodando para mandar requisições. Essa funcaozinha Run() já vai manter ele rodando pra sempre, é basicamente um loop infinito que não para ahsuhsa (ao menos que vocês desliguem o programa com CTRL+C ou matando o processo).</p>
+
+    <p>Mas vamos testar agora! Vocês precisam de um programa para fazer requisições à internet, um programa que consiga usar o protocolo HTTP pra isso. Existem muitos - de terminal tem o <code>wget</code> ou <code>curl</code> (curl é super famoso e carrega nas costas quase tudo hasuhas). Mas como vamos fazer de uma forma visual e simples, vocês já têm um programa instalado que faz requisições GET fácil fácil hauhau: é o navegador!</p>
+
+    <p>Então basicamente acessem o IP local e entrem na porta 8080.</p>
+
+    <p>Só abrir esse link aqui se o programa estiver rodando:</p>
+    <code>http://localhost:8080</code>
+
+    <p>O navegador de vocês vai fazer um GET nesse IP e renderizar a resposta na tela.</p>
+
+    <h3>(404 not found)</h3>
+    <div class="warning">
+        <strong>Enganei vocês hasdfuhasuf</strong> (na verdade eu sou burro). Então, essa rota que eu passei pra vocês é onde a aplicação tá rodando. Quando vocês tentarem acessar ela, o nosso framework é esperto e não vai achar uma rota pra isso, e vai dar o 404 automaticamente. A rota que criamos nesse programa é <code>/ping</code>, então vocês precisam acessar: <code>http://localhost:8080/ping</code>
+    </div>
+
+    <div class="success">
+        <strong>Se estiver tudo certo, deu boa!</strong>
+    </div>
+
+    <div class="warning">
+        <strong>Sobre redes:</strong> Essa parada de redes vocês vão estudar na faculdade também, então se vocês fizerem podem ficar tranquilos que vão estudar haushas. Mas se quiserem aprender um pouco agora e por fora, vou passar o basicão aqui do que vocês vão precisar entender.
+    </div>
+
+    <h2>Links Úteis</h2>
+
+    <h3>Métodos HTTP:</h3>
+    <p><a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Methods" target="_blank">https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Methods</a></p>
+
+    <h3>O que é uma API REST (o que começamos a fazer):</h3>
+    <p><a href="https://www.redhat.com/pt-br/topics/api/what-is-a-rest-api" target="_blank">https://www.redhat.com/pt-br/topics/api/what-is-a-rest-api</a></p>
+
+    <h3>Livro (se forem malucos hasuhas):</h3>
+    <p>Provavelmente vão ver isso na faculdade. Não recomendo comprarem pq é caro ashuhas e tem mais coisa do que vocês precisam saber agora. Mas caso algum dia estiverem no hype de ler um livro de programação sobre redes da grossura de um tijolo, fica aí a recomendação:</p>
+    <p><a href="https://archive.org/details/tanenbaum-rede-de-computadores-6a/mode/2up" target="_blank">Redes de Computadores - Tanenbaum</a></p>
+
+    <div class="warning">
+        <strong>Aviso:</strong> Enfim, esse livro aí já vai do começo até o final, e um júnior hoje em dia não precisa saber de tudo isso hauhsa. Mas talvez vocês vejam esse livrinho na faculdade, então joguei ele aí também.
+    </div>
+
+    <hr>
+
+    <div class="success">
+        <strong>É isso aí galera, mandaram bem!</strong> Deem uma lida aí no que deixei de link (menos o livro hdfuashfudha). Acho que a próxima coisa que vamos fazer é o banco de dados, mas tô pensando ainda haushas. Por agora fico aí pra dúvidas.
+    </div>
+</body>
+</html>
